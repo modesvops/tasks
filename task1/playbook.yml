@@ -1,0 +1,23 @@
+- name: Setup nginx and change page content to “Hello World”
+  hosts: task1
+  become: yes
+
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+    - name: Change default html file content
+      copy:
+        content: 'Hello World'
+        dest: /var/www/html/index.nginx-debian.html
+    - name: Edit nginx conf # TODO make a template file instead replacing inline
+      ansible.builtin.lineinfile:
+        path: /etc/nginx/sites-available/default
+        regexp: 'listen 80 default_server;'
+        line: 'listen 9090 default_server;'
+    - name: Reload service httpd, in all cases
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded

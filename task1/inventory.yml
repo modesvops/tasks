@@ -1,0 +1,6 @@
+task1:
+  hosts:
+    host1:
+      ansible_host: 3.70.188.116
+      ansible_port: 22 
+      ansible_user: ubuntu
